@@ -69,7 +69,15 @@ body{background:#f4f5f7;color:#17191d}
 .payday-banner-copy strong{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .payday-banner-copy small{font-size:10px;line-height:1.3;color:#dcecff}
 .payday-banner-cta{display:flex;align-items:center;gap:5px;border-radius:18px;background:#fff;color:#07478c;padding:8px 10px;font-size:10px;font-weight:800;white-space:nowrap}
-.payday-banner-cta b{font-size:16px;line-height:10px}
+.payday-banner-cta b{font-size:20px;line-height:10px}
+.payday-banner-divider{width:1px;align-self:stretch;background:#ffffff45;margin:1px 0}
+.payday-banner-copy{gap:4px}
+.payday-obligation-label{font-size:10px;line-height:1.2;color:#dcecff}
+.payday-banner-copy .payday-obligation-total{font-size:21px;line-height:1.05;font-weight:850;letter-spacing:-.45px;color:#fff}
+.payday-payment-count{display:flex;align-items:center;gap:4px;font-size:10px;line-height:1.2;color:#dcecff;white-space:nowrap}
+.payday-calendar{font-size:12px;color:#b9e4ff}
+.payday-obligations-copy{flex:1.05}
+.payday-banner-cta{padding:8px 9px}
 .recharge-compact{padding:13px 16px 14px!important;margin-bottom:10px!important}
 .recharge-compact .section-head{margin:0}
 .recharge-compact .section-title{font-size:17px}
@@ -131,8 +139,10 @@ body{background:#f4f5f7;color:#17191d}
     </div>
     <button class="payday-home-banner" data-go="hub">
       <span class="payday-banner-mark">₹</span>
-      <span class="payday-banner-copy"><strong>Payday Hub</strong><small>Your monthly payments, all in one place</small></span>
-      <span class="payday-banner-cta">Explore <b>›</b></span>
+      <span class="payday-banner-copy"><strong>Payday Hub</strong><span class="payday-obligation-label">Monthly salary</span><strong class="payday-obligation-total">₹85,000</strong></span>
+      <span class="payday-banner-divider"></span>
+      <span class="payday-banner-copy payday-obligations-copy"><span class="payday-obligation-label">Monthly obligations</span><strong class="payday-obligation-total">₹31,500</strong><span class="payday-payment-count"><span class="payday-calendar">▦</span> 4 payments</span></span>
+      <span class="payday-banner-cta"><b>›</b></span>
     </button>
     <section class="section recharge-compact">
       <div class="section-head"><div class="section-title">Recharge &amp; Bills</div><button class="viewall" data-action="services">View All →</button></div>
@@ -144,8 +154,6 @@ body{background:#f4f5f7;color:#17191d}
       <button class="offer-tile" data-action="services"><span class="offer-ico">◇</span><span>Save in Silver<small>Flat 3% Off</small></span></button>
     </div>
     <div class="offer-chips"><span class="offer-chip">♧ Refer &amp; Win ₹450</span><span class="offer-chip">▣ Cashback &amp; Offers</span><span class="offer-chip">▤ UPI Lite</span></div>
-    <div class="ad-banner">Special offers &amp; rewards<br><small style="display:block;font-size:11px;font-weight:500">Illustrative promotional tile</small></div>
-    <div class="bottom-note">Independent Payday Hub concept · demo only</div>
   </main>
 
   <main id="menu" class="screen">
