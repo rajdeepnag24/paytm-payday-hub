@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#ffffff" />
+<title>Paytm · Payday Hub Prototype</title>
+<style>
+:root{--blue:#00baf2;--navy:#002970;--ink:#172b4d;--muted:#6b778c;--line:#e7ebf0;--bg:#f5f7fa;--white:#fff;--green:#168653;--orange:#ff8b00;--shadow:0 8px 26px #09234b12}
+*{box-sizing:border-box}body{margin:0;background:#e9eef5;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app-shell{max-width:430px;min-height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 44px #001b441c}
+.topbar{height:70px;background:white;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid #edf0f4}
+.avatar{width:38px;height:38px;border-radius:50%;border:0;background:#eaf8ff;color:#07529a;font-weight:800;font-size:15px;box-shadow:inset 0 0 0 1px #c5eaff}
+.brand{font-size:25px;font-weight:800;letter-spacing:-1.2px;color:#002970;flex:1}.brand span{color:#00baf2}
+.icon-btn{width:36px;height:36px;border:0;background:white;border-radius:50%;display:grid;place-items:center;color:#263b5a;position:relative}.icon-btn svg{width:22px;height:22px}.dot{position:absolute;width:7px;height:7px;border-radius:50%;background:#ff4d4f;right:5px;top:5px;border:1px solid white}
+.screen{display:none;min-height:calc(100vh - 70px);padding-bottom:100px}.screen.active{display:block}
+.home-quick{background:#fff;padding:17px 10px 19px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.quick{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:9px;padding:2px 0;color:#1e3354;font-size:11px;line-height:1.3;text-align:center;font-weight:600}
+.qicon{width:47px;height:47px;border-radius:16px;display:grid;place-items:center;background:#e9f8ff;color:#0079bf}.qicon svg{width:26px;height:26px;stroke-width:1.9}
+.section{margin-top:10px;background:white;padding:17px 16px 18px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.section-title{font-size:16px;font-weight:750;letter-spacing:-.2px}.viewall{font-size:12px;color:#0079c8;font-weight:700;border:0;background:none}
+.bill-grid{display:grid;grid-template-columns:repeat(4,1fr);row-gap:21px}.bill{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:7px;color:#344563;font-size:11px;font-weight:600;text-align:center;padding:0 2px}.bill-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#f0f7ff;color:#1766b1}.bill-icon svg{width:23px;height:23px}
+.promo{margin:10px 12px 0;background:linear-gradient(110deg,#002970,#0068b5);color:white;border-radius:14px;padding:18px 17px;display:flex;align-items:center;min-height:128px;gap:10px;position:relative;overflow:hidden}.promo:after{content:"";position:absolute;width:145px;height:145px;border:22px solid #ffffff15;border-radius:50%;right:-25px;top:-35px}.promo-copy{position:relative;z-index:1;flex:1}.promo-kicker{font-size:10px;letter-spacing:1.4px;font-weight:800;color:#9ce7ff}.promo h3{font-size:19px;line-height:1.15;margin:7px 0 5px;max-width:220px}.promo p{font-size:11px;line-height:1.4;margin:0;color:#dcecff}.promo-cta{position:relative;z-index:1;border:0;background:#fff;color:#003b82;border-radius:18px;padding:9px 11px;font-size:11px;font-weight:800;white-space:nowrap}
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 5px}.service-grid .bill-icon{background:#f4f7fb;color:#37638c}
+.bottom-note{text-align:center;color:#9aa5b5;font-size:10px;padding:22px}
+.fab{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:min(300px,calc(100vw - 52px));max-width:378px;z-index:20;border:1px solid #a7e8ff;background:#fff;border-radius:28px;box-shadow:0 0 0 5px #00baf21a,0 8px 26px #00297022;padding:11px 16px;color:#005a9c;font-size:12px;font-weight:800;display:flex;justify-content:center;align-items:center;gap:8px;animation:glow 2.4s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 8px #00baf20d,0 8px 30px #00baf244}}.demo-pill{font-size:9px;letter-spacing:.8px;background:#e9f8ff;padding:4px 6px;border-radius:6px;color:#0074ad}
+.page-head{background:white;padding:14px 16px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}.back{border:0;background:#f1f6fb;width:35px;height:35px;border-radius:50%;font-size:20px;color:#163c66}.page-title{font-size:19px;font-weight:800;flex:1}.eyebrow{font-size:11px;color:var(--muted);margin-top:3px}
+.menu-profile{background:white;padding:22px 18px 20px;display:flex;align-items:center;gap:13px;border-bottom:8px solid var(--bg)}.profile-big{width:54px;height:54px;border-radius:50%;background:#e5f7ff;display:grid;place-items:center;font-size:19px;font-weight:800;color:#07529a}.profile-name{font-weight:800;font-size:17px}.profile-sub{font-size:12px;color:var(--muted);margin-top:4px}.menu-list{background:white;padding:6px 0}.menu-item{width:100%;padding:16px 18px;border:0;border-bottom:1px solid #f0f2f5;background:white;display:flex;align-items:center;text-align:left;gap:13px;color:#243b5a}.menu-item:last-child{border-bottom:0}.menu-icon{width:37px;height:37px;border-radius:12px;background:#eff8ff;color:#0877b8;display:grid;place-items:center;font-size:18px}.menu-label{flex:1;font-size:14px;font-weight:700}.menu-desc{font-size:11px;color:var(--muted);font-weight:400;margin-top:3px}.chevron{font-size:22px;color:#98a5b5}
+.content{padding:14px 13px}.hero-card{background:linear-gradient(130deg,#002970,#005ca9);color:white;padding:20px;border-radius:18px;position:relative;overflow:hidden}.hero-card:after{content:"";position:absolute;right:-40px;top:-48px;width:170px;height:170px;border:27px solid #ffffff12;border-radius:50%}.hero-eyebrow{font-size:10px;letter-spacing:1.2px;font-weight:800;color:#a6eaff}.hero-card h2{font-size:24px;line-height:1.15;margin:9px 0}.hero-card p{font-size:12px;line-height:1.5;color:#d9ecff;margin:0;max-width:280px}.hero-actions{display:flex;gap:9px;margin-top:16px;position:relative;z-index:1}.primary,.secondary{border-radius:11px;padding:11px 13px;border:0;font-size:12px;font-weight:800}.primary{background:#00baf2;color:#00376b}.secondary{background:#ffffff17;border:1px solid #ffffff45;color:white}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}.metric{background:white;border-radius:14px;padding:15px;border:1px solid #edf0f4}.metric-label{font-size:11px;color:var(--muted)}.metric-value{font-size:22px;font-weight:850;margin-top:7px;letter-spacing:-.5px}.metric-foot{font-size:10px;color:#7e8b9d;margin-top:5px}
+.card{background:white;border:1px solid #edf0f4;border-radius:15px;padding:16px;margin-top:12px}.card-title{font-size:15px;font-weight:800}.card-sub{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.link{border:0;background:none;color:#0077bd;font-size:11px;font-weight:800;padding:5px}
+.obligation{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid #eef1f5}.obligation:last-child{border-bottom:0;padding-bottom:0}.ob-icon{width:40px;height:40px;border-radius:13px;background:#eef8ff;color:#0869a9;display:grid;place-items:center;font-size:18px;flex-shrink:0}.ob-main{flex:1;min-width:0}.ob-name{font-size:13px;font-weight:800}.ob-meta{font-size:10px;color:var(--muted);margin-top:4px}.ob-amount{font-size:13px;font-weight:850;text-align:right}.tag{display:inline-block;margin-top:5px;padding:3px 6px;border-radius:6px;font-size:9px;font-weight:800;background:#fff2db;color:#a35c00}.tag.green{background:#e6f7ed;color:#087543}.pay-btn{border:0;background:#e7f8ff;color:#006da8;border-radius:8px;padding:8px 9px;font-size:10px;font-weight:800;margin-top:6px}
+.notice{background:#f0f8ff;border:1px solid #d7efff;border-radius:12px;padding:12px;font-size:11px;line-height:1.45;color:#315773;margin-top:12px}.notice strong{display:block;color:#07528e;margin-bottom:3px}
+.form-card{background:white;border:1px solid #edf0f4;border-radius:15px;padding:16px;margin-top:12px}.field{display:block;margin-top:13px}.field span{display:block;font-size:11px;font-weight:750;color:#51627a;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid #dce3eb;border-radius:10px;padding:12px;background:#fff;color:#172b4d;outline:none}.field input:focus,.field select:focus{border-color:#00a6df;box-shadow:0 0 0 3px #00baf21b}.full{width:100%;margin-top:16px}.ghost{border:1px solid #d9e3ec;background:white;color:#315773;border-radius:10px;padding:11px 13px;font-size:12px;font-weight:800}
+.sms-overlay{display:none;position:absolute;inset:0;background:#00142c66;z-index:40;align-items:flex-start;justify-content:center;padding:75px 16px 20px}.sms-overlay.open{display:flex}.sms-toast{width:100%;background:#fff;border-radius:18px;box-shadow:0 20px 60px #00152b55;padding:17px}.sms-head{display:flex;gap:10px;align-items:center}.sms-logo{width:36px;height:36px;background:#eaf8ff;color:#006ca5;border-radius:11px;display:grid;place-items:center;font-weight:900}.sms-title{font-size:13px;font-weight:850;flex:1}.sms-time{font-size:10px;color:var(--muted)}.sms-body{font-size:12px;line-height:1.5;color:#43536a;margin:13px 0}.sms-actions{display:flex;gap:8px}.sms-actions button{flex:1}
+.toast{position:absolute;top:78px;left:14px;right:14px;z-index:45;background:#063b68;color:white;border-radius:12px;padding:12px 14px;font-size:12px;box-shadow:var(--shadow);display:none}.toast.show{display:block}
+.chart-bars{display:flex;align-items:flex-end;height:100px;gap:9px;margin-top:15px}.bar-col{flex:1;text-align:center;font-size:9px;color:#7c899b}.bar{background:linear-gradient(#00baf2,#0073b7);border-radius:5px 5px 0 0;margin:0 auto 6px;width:70%;min-height:6px}
+@media(min-width:600px){body{padding:22px 0}.app-shell{border-radius:28px;min-height:840px}.screen{min-height:840px}.fab{position:absolute}.sms-overlay{border-radius:28px}}
+
+/* Screenshot-aligned Paytm home and settings pass */
+body{background:#f4f5f7;color:#17191d}
+.app-shell{background:#f5f6f8;max-width:430px;box-shadow:none}
+.topbar{height:78px;background:#f5f6f8;border:0;padding:0 16px;gap:14px}
+.avatar{width:46px;height:46px;flex:0 0 46px;background:#dce9c6;color:#53643a;box-shadow:none;font-size:17px;font-weight:500}
+.brand{font-size:0;letter-spacing:0;display:flex;align-items:center;gap:3px;white-space:nowrap}
+.brand:before{content:'paytm';font-size:27px;letter-spacing:-1.4px;font-weight:900;color:#092d72}
+.brand:after{content:'♥ UPI';font-size:24px;letter-spacing:-1.2px;font-style:italic;font-weight:800;color:#092d72}
+.brand span{display:none}
+.icon-btn{background:transparent;color:#101318;width:36px;height:36px}
+.icon-btn svg{width:27px;height:27px;stroke-width:1.7}
+.screen{min-height:calc(100vh - 78px);padding-bottom:88px}
+.home-quick{background:transparent;padding:39px 13px 31px;gap:4px}
+.quick{gap:10px;padding:0 1px;color:#373a40;font-size:12px;font-weight:500;line-height:1.25}
+.qicon{width:51px;height:51px;border-radius:50%;background:#074c9d;color:white}
+.qicon svg{width:28px;height:28px;stroke-width:1.8}
+.section{margin:0 12px 12px;border-radius:23px;padding:19px 16px 21px;background:#fff}
+.section-head{margin-bottom:20px}
+.section-title{font-size:19px;letter-spacing:-.4px;font-weight:800;color:#202126}
+.viewall{font-size:13px;color:#2477bf;font-weight:600}
+.bill-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:19px 3px}
+.bill{gap:8px;color:#4b4e54;font-size:12px;font-weight:500;line-height:1.25}
+.bill-icon{width:38px;height:38px;border-radius:0;background:transparent;color:#14579a;font-size:25px;font-weight:400}
+.bill-icon svg{width:25px;height:25px}
+/* home promo composition mirrors the real app's reward strip + offer cards */
+.home-offer-strip{margin:13px 12px 17px;background:#c9f2f8;border-radius:24px;min-height:67px;display:flex;align-items:center;gap:13px;padding:10px 16px;color:#24272b}
+.home-offer-strip .gift{font-size:35px;line-height:1}
+.home-offer-strip strong{font-size:16px;display:block;margin-bottom:4px}
+.home-offer-strip small{font-size:12px;color:#43484f}
+.home-offer-strip .arr{font-size:27px;margin-left:auto}
+.home-offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 12px 16px}
+.offer-tile{border:0;background:#fff;border-radius:24px;padding:18px 16px;text-align:left;color:#292c31;min-height:94px;display:flex;align-items:center;gap:12px;font-size:14px;line-height:1.35}
+.offer-tile.tall{grid-row:span 2;min-height:168px;display:block;padding-top:23px}
+.offer-tile .offer-ico{font-size:23px;color:#9ca6a8;display:block;margin-bottom:18px}
+.offer-tile small{display:block;color:#858990;margin-top:4px;font-size:12px}
+.offer-chips{display:flex;gap:8px;overflow:hidden;white-space:nowrap;margin:0 12px 16px}
+.offer-chip{background:#fff;border-radius:20px;padding:10px 13px;font-size:12px;color:#444951;white-space:nowrap;flex:0 0 auto}
+.ad-banner{margin:0 12px 12px;border-radius:16px;min-height:110px;background:linear-gradient(115deg,#b52b32,#f6a14b);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;text-align:center;padding:20px}
+/* profile/settings screenshot structure */
+#menu{background:#f4f5f7}
+#menu .page-head{height:78px;background:#f4f5f7;border:0;padding:0 16px;justify-content:center;position:relative}
+#menu .page-head .back{position:absolute;left:13px;background:transparent;border-radius:0;width:30px;height:35px;font-size:28px;font-weight:300;color:#222}
+#menu .page-head>div{flex:none;text-align:center}
+#menu .page-title{font-size:0}
+#menu .page-title:after{content:'paytm';font-size:27px;letter-spacing:-1.4px;font-weight:900;color:#092d72}
+#menu .eyebrow{display:none}
+#menu .menu-profile{margin:0 12px;background:#fff;border-radius:24px 24px 0 0;padding:18px 17px 17px;border:0;gap:14px}
+#menu .profile-big{width:55px;height:55px;flex:0 0 55px;border-radius:50%;background:#e9f3f8;border:2px solid #e3d5e8;color:#a6bac7;font-size:0;position:relative}
+#menu .profile-big:after{content:'●';font-size:23px;color:#fff;position:absolute;top:7px}
+#menu .profile-name{font-size:17px;color:#17191d}
+#menu .profile-sub{font-size:12px;color:#333;margin-top:7px}
+#menu .menu-list{margin:0 12px;background:#fff;padding:0 0 5px;border-radius:0 0 24px 24px;overflow:hidden}
+#menu .menu-list:before{content:'Settings';display:block;font-size:23px;font-weight:800;padding:18px 20px 13px;color:#202126}
+#menu .menu-item{padding:15px 17px;min-height:68px;gap:13px;border-bottom:1px solid #ededed;color:#24272b}
+#menu .menu-icon{width:34px;height:34px;flex:0 0 34px;border-radius:0;background:transparent;color:#30363b;font-size:23px}
+#menu .menu-label{font-size:14px;font-weight:500;color:#2d3035}
+#menu .menu-desc{font-size:12px;line-height:1.3;color:#85888d;margin-top:4px;font-weight:400}
+#menu .chevron{font-size:23px;color:#333}
+#menu .bottom-note{margin:13px 12px 0;background:#082f72;color:white;border-radius:12px;font-size:11px;padding:16px 10px}
+.fab{bottom:18px;width:auto;max-width:none;padding:9px 13px;border-radius:22px;background:#073f91;color:white;border:1px solid #53cfff;box-shadow:0 0 0 4px #00baf21a,0 5px 18px #00297038;font-size:11px;left:auto;right:13px;transform:none;animation:glow 2.4s ease-in-out infinite}
+.demo-pill{background:#dff7ff;color:#00568a}
+@media(min-width:600px){.app-shell{border-radius:0}.fab{position:fixed;left:calc(50% + 110px);right:auto}.sms-overlay{border-radius:0}}
+</style>
+</head>
+<body>
+<div class="app-shell" id="app">
+  <header class="topbar">
+    <button class="avatar" data-go="menu" aria-label="Open profile menu">RN</button>
+    <div class="brand">pay<span>tm</span></div>
+    <button class="icon-btn" aria-label="Search" data-action="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.2 4.2"/></svg></button>
+    <button class="icon-btn" aria-label="Notifications" data-action="notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg><i class="dot"></i></button>
+  </header>
+
+  <main id="home" class="screen active">
+    <div class="home-quick">
+      <button class="quick" data-go="scan"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M8 8h3v3H8zM14 8h2M14 11h3M8 14h3v3H8zM14 14h3v3h-3z"/></svg></span><span>Scan<br>&amp; Pay</span></button>
+      <button class="quick" data-go="scan"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="5" width="10" height="15" rx="1.5"/><path d="M8 8h4M8 16h4M17 8l3-3m0 0v5m0-5h-5M16 14h5"/></svg></span><span>To Mobile /<br>Contact</span></button>
+      <button class="quick" data-go="scan"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 9l10-6 10 6M4 10h16M5 10v9M9 10v9M15 10v9M19 10v9M3 20h18"/></svg></span><span>To Bank &amp;<br>Self A/c</span></button>
+      <button class="quick" data-go="history"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h3M8 15h8M15 10v3"/></svg></span><span>Balance &amp;<br>History</span></button>
+    </div>
+    <section class="section">
+      <div class="section-head"><div class="section-title">Recharge &amp; Bills</div><button class="viewall" data-action="services">View All →</button></div>
+      <div class="bill-grid">
+        <button class="bill" data-action="recharge"><span class="bill-icon">▣</span><span>Mobile<br>Recharge</span></button>
+        <button class="bill" data-action="recharge"><span class="bill-icon">▤</span><span>Credit Card<br>Bill</span></button>
+        <button class="bill" data-action="recharge"><span class="bill-icon">ϟ</span><span>Electricity<br>Bill</span></button>
+        <button class="bill" data-action="recharge"><span class="bill-icon">▱</span><span>FASTag<br>Recharge</span></button>
+      </div>
+      <div style="text-align:center;color:#999;font-size:17px;line-height:12px;margin-top:20px">━</div>
+    </section>
+    <div class="home-offer-strip"><span class="gift">🎁</span><div><strong>Exclusive offer for You!</strong><small>Claim your exclusive reward</small></div><span class="arr">›</span></div>
+    <div class="home-offer-grid">
+      <button class="offer-tile tall" data-action="services"><span class="offer-ico">▤</span><span>Sale Is On!<small>Activate Postpaid &amp; Get up to ₹60,000 to Spend</small></span></button>
+      <button class="offer-tile" data-action="services"><span class="offer-ico">✈</span><span>15% off* on Flights</span></button>
+      <button class="offer-tile" data-action="services"><span class="offer-ico">◇</span><span>Save in Silver<small>Flat 3% Off</small></span></button>
+    </div>
+    <div class="offer-chips"><span class="offer-chip">♧ Refer &amp; Win ₹450</span><span class="offer-chip">▣ Cashback &amp; Offers</span><span class="offer-chip">▤ UPI Lite</span></div>
+    <div class="ad-banner">Special offers &amp; rewards<br><small style="display:block;font-size:11px;font-weight:500">Illustrative promotional tile</small></div>
+    <div class="bottom-note">Independent Payday Hub concept · demo only</div>
+  </main>
+
+  <main id="menu" class="screen">
+    <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Profile &amp; Settings</div><div class="eyebrow">Manage your Paytm account</div></div></div>
+    <div class="menu-profile"><div class="profile-big">RN</div><div><div class="profile-name">Rajdeep Nag <span style="color:#2479bf;font-size:14px">●</span></div><div class="profile-sub">Demo account · UPI ID hidden</div></div></div>
+    <div class="menu-list">
+      <button class="menu-item" data-go="hub"><span class="menu-icon">◷</span><span class="menu-label">Payday Hub<div class="menu-desc">Monthly payments, reminders &amp; spending</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-go="history"><span class="menu-icon">₹</span><span class="menu-label">Balance &amp; History<div class="menu-desc">Transactions, balance and activity</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-go="setup"><span class="menu-icon">＋</span><span class="menu-label">Set up Payday Hub<div class="menu-desc">Add your regular monthly payments</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-action="profile"><span class="menu-icon">♙</span><span class="menu-label">Profile<div class="menu-desc">Privacy, notification &amp; language</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-action="services"><span class="menu-icon">♧</span><span class="menu-label">Refer &amp; Win<div class="menu-desc">Assured ₹450</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-action="help"><span class="menu-icon">◉</span><span class="menu-label">Help &amp; Support<div class="menu-desc">Customer support, queries &amp; FAQs</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-action="services"><span class="menu-icon">◈</span><span class="menu-label">My UPI<div class="menu-desc">Help for payments, mandates &amp; services</div></span><span class="chevron">›</span></button>
+      <button class="menu-item" data-action="services"><span class="menu-icon">◐</span><span class="menu-label">Appearance<div class="menu-desc">Experience dark mode and display options</div></span><span class="chevron">›</span></button>
+    </div>
+    <div class="bottom-note">Fictional profile and transactions for demonstration only.</div>
+  </main>
+
+  <main id="hub" class="screen">
+    <div class="page-head"><button class="back" data-go="menu">‹</button><div><div class="page-title">Payday Hub</div><div class="eyebrow">Your month, organised</div></div><button class="viewall" data-go="setup">＋ Add</button></div>
+    <div class="content">
+      <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-actions"><button class="primary" data-go="obligations">View payments</button><button class="secondary" data-go="setup">＋ Add payment</button></div></div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-label">Monthly obligations</div><div class="metric-value" id="total">₹31,500</div><div class="metric-foot">Across 4 regular payments</div></div>
+        <div class="metric"><div class="metric-label">Due this week</div><div class="metric-value" id="due">₹22,000</div><div class="metric-foot">2 payments coming up</div></div>
+      </div>
+      <div class="card"><div class="row-between"><div><div class="card-title">Coming up next</div><div class="card-sub">A gentle reminder before each due date</div></div><button class="link" data-go="obligations">See all ›</button></div><div id="upcoming"></div></div>
+      <div class="card"><div class="row-between"><div><div class="card-title">Your spending snapshot</div><div class="card-sub">Illustrative demo data for October</div></div><button class="link" data-go="insights">Insights ›</button></div><div class="row-between" style="margin-top:18px"><div><div class="metric-label">Paid via Paytm</div><div class="metric-value">42%</div></div><div><div class="metric-label">Monthly outflow</div><div class="metric-value">₹48,260</div></div></div><div class="notice">The more payments you tag, the more complete your monthly picture becomes.</div></div>
+      <div class="card"><div class="row-between"><div><div class="card-title">Goals &amp; investments</div><div class="card-sub">Optional · View-only in this demo</div></div><button class="link" data-go="insights">View ›</button></div><div class="obligation"><div class="ob-icon">◎</div><div class="ob-main"><div class="ob-name">Emergency fund</div><div class="ob-meta">Goal progress · illustrative</div></div><div class="ob-amount">35%</div></div><div class="obligation"><div class="ob-icon">↗</div><div class="ob-main"><div class="ob-name">SIP dates</div><div class="ob-meta">Display only · no investment advice</div></div><span class="tag green">View only</span></div></div>
+    </div>
+  </main>
+
+  <main id="obligations" class="screen">
+    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Monthly payments</div><div class="eyebrow">Your recurring obligations</div></div><button class="viewall" data-go="setup">＋ Add</button></div>
+    <div class="content"><div class="notice"><strong>Before your due date</strong>Payday Hub can remind you the evening before a payment is due. You stay in control of every payment.</div><div class="card" id="all-obligations"></div><button class="primary full" data-go="setup">＋ Add a regular payment</button></div>
+  </main>
+
+  <main id="setup" class="screen">
+    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Add a payment</div><div class="eyebrow">Keep your monthly plan up to date</div></div></div>
+    <div class="content">
+      <div class="notice"><strong>Set it up your way</strong>Enter a payment manually in this demo. In a real product, recurring payments may be detected with your explicit consent.</div>
+      <form id="add-form" class="form-card">
+        <label class="field"><span>Payment or payee name</span><input id="f-name" required placeholder="e.g. Rent, Home help" /></label>
+        <label class="field"><span>Amount (₹)</span><input id="f-amount" required type="number" min="1" placeholder="e.g. 22000" /></label>
+        <label class="field"><span>Due date (day of month)</span><input id="f-day" required type="number" min="1" max="31" placeholder="e.g. 5" /></label>
+        <label class="field"><span>Frequency</span><select id="f-frequency"><option>Monthly</option><option>Weekly</option><option>Quarterly</option></select></label>
+        <label class="field"><span>Category</span><select id="f-category"><option>Home</option><option>Family</option><option>Bills</option><option>Health</option><option>Travel</option><option>Other</option></select></label>
+        <button class="primary full" type="submit">Save payment</button>
+        <button class="ghost full" type="button" data-go="hub">Cancel</button>
+      </form>
+    </div>
+  </main>
+
+  <main id="scan" class="screen">
+    <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Scan &amp; Pay</div><div class="eyebrow">Simulated payment journey</div></div></div>
+    <div class="content"><div class="card" style="text-align:center;padding:28px 18px"><div style="width:170px;height:170px;margin:0 auto 20px;background:#fff;border:10px solid #f1f5f9;display:grid;place-items:center;border-radius:10px"><svg viewBox="0 0 100 100" width="130" height="130"><rect width="100" height="100" fill="white"/><g fill="#172b4d"><path d="M5 5h30v30H5zM11 11v18h18V11zM16 16h8v8h-8zM65 5h30v30H65zM71 11v18h18V11zM76 16h8v8h-8zM5 65h30v30H5zM11 71v18h18V71zM16 76h8v8h-8zM43 5h8v8h-8zM43 21h8v8h-8zM43 37h8v8h-8zM59 43h8v8h-8zM75 43h8v8h-8zM91 43h4v8h-4zM43 53h8v8h-8zM53 63h8v8h-8zM43 75h8v8h-8zM63 81h8v8h-8zM79 65h8v8h-8zM87 77h8v18h-8z"/></g></svg></div><div class="card-title">Demo Merchant</div><div class="card-sub">This is a sample QR. No real payment will be made.</div><label class="field" style="text-align:left"><span>Amount (₹)</span><input id="pay-amount" type="number" value="850" min="1"/></label><label class="field" style="text-align:left"><span>Category</span><select id="pay-category"><option>Food</option><option>Travel</option><option>Shopping</option><option>Bills</option><option>Home</option></select></label><button class="primary full" data-action="pay-demo">Continue (demo only)</button></div></div>
+  </main>
+
+  <main id="success" class="screen">
+    <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Payment successful</div><div class="eyebrow">Simulated transaction</div></div></div>
+    <div class="content"><div class="card" style="text-align:center;padding:28px 18px"><div style="width:60px;height:60px;margin:auto;border-radius:50%;background:#e3f8ed;color:#168653;font-size:32px;display:grid;place-items:center">✓</div><h2 style="margin-bottom:4px">Payment complete</h2><div class="card-sub">Demo transaction · no money moved</div><div class="metric-value" id="paid-amount">₹850</div><div class="notice" style="text-align:left"><strong>Suggested tag: Food</strong>Confirming tags helps your monthly spending view stay organised.</div><button class="primary full" data-action="tag-payment">Confirm tag &amp; finish</button><button class="ghost full" data-go="hub">Go to Payday Hub</button></div></div>
+  </main>
+
+  <main id="history" class="screen">
+    <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Balance &amp; History</div><div class="eyebrow">Illustrative demo account</div></div></div>
+    <div class="content"><div class="card"><div class="card-sub">Available balance (demo only)</div><div class="metric-value">₹42,850</div><div class="card-sub">No bank account is connected.</div></div><div class="card"><div class="card-title">Recent transactions</div><div id="transactions"></div></div><button class="primary full" data-go="hub">Open Payday Hub</button></div>
+  </main>
+
+  <main id="insights" class="screen">
+    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Monthly insights</div><div class="eyebrow">October · demo data</div></div></div>
+    <div class="content"><div class="metrics"><div class="metric"><div class="metric-label">Money in</div><div class="metric-value">₹85,000</div></div><div class="metric"><div class="metric-label">Money out</div><div class="metric-value">₹48,260</div></div></div><div class="card"><div class="card-title">Monthly outflow</div><div class="card-sub">Illustrative trend · not linked to a bank</div><div class="chart-bars"><div class="bar-col"><div class="bar" style="height:48px"></div>May</div><div class="bar-col"><div class="bar" style="height:62px"></div>Jun</div><div class="bar-col"><div class="bar" style="height:53px"></div>Jul</div><div class="bar-col"><div class="bar" style="height:77px"></div>Aug</div><div class="bar-col"><div class="bar" style="height:65px"></div>Sep</div><div class="bar-col"><div class="bar" style="height:89px"></div>Oct</div></div></div><div class="card"><div class="card-title">Where money goes</div><div id="category-list"></div></div><div class="notice"><strong>Goals and SIP dates are display-only</strong>This prototype does not provide investment advice, predict shortfalls or initiate any investment.</div></div>
+  </main>
+
+  <div class="sms-overlay" id="sms-overlay"><div class="sms-toast"><div class="sms-head"><div class="sms-logo">SMS</div><div class="sms-title">New message detected <div class="eyebrow">Messages · Just now</div></div><div class="sms-time">9:00 PM</div></div><div class="sms-body">“Hi, your monthly rent payment of ₹22,000 is due on the 5th. Please pay your landlord.”<br><br><span style="color:#7a8797">Simulated message — no real SMS access.</span></div><div class="sms-actions"><button class="ghost" data-action="dismiss-sms">Not now</button><button class="primary" data-go="verify">Review payment</button></div></div></div>
+  <div class="toast" id="toast"></div>
+  <button class="fab" id="simulate-sms"><span>▣</span> Simulate SMS <span class="demo-pill">DEMO</span></button>
+</div>
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+const app=document.getElementById('app');
+const state={obligations:[
+ {name:'Rent',amount:22000,day:5,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'},
+ {name:'Home help',amount:2500,day:7,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'},
+ {name:'Parents',amount:5000,day:10,category:'Family',frequency:'Monthly',icon:'♡',status:'Upcoming'},
+ {name:'Internet & utilities',amount:2000,day:14,category:'Bills',frequency:'Monthly',icon:'ϟ',status:'Upcoming'}
+],transactions:[
+ {name:'Metro recharge',amount:500,category:'Travel',date:'Today'},
+ {name:'Coffee House',amount:320,category:'Food',date:'Yesterday'},
+ {name:'Electricity bill',amount:1450,category:'Bills',date:'3 Oct'}
+],lastPayment:null};
+function go(id){document.getElementById('sms-overlay').classList.remove('open');screens.forEach(s=>s.classList.toggle('active',s.id===id));document.getElementById('simulate-sms').style.display=(id==='home'||id==='hub'||id==='obligations'||id==='history')?'flex':'none';window.scrollTo({top:0,behavior:'smooth'});if(id==='hub'||id==='obligations'||id==='history'||id==='insights')render();}
+function money(n){return '₹'+Number(n).toLocaleString('en-IN')}
+function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function render(){
+ const total=state.obligations.reduce((s,o)=>s+o.amount,0);
+ document.getElementById('total').textContent=money(total);
+ document.getElementById('due').textContent=money(state.obligations.filter(o=>o.day<=7).reduce((s,o)=>s+o.amount,0));
+ const rows=state.obligations.map((o,i)=>`<div class="obligation"><div class="ob-icon">${o.icon||'₹'}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn" data-pay="${i}">${o.status==='Paid'?'Paid ✓':'Pay via Paytm'}</button></div></div>`).join('');
+ document.getElementById('upcoming').innerHTML=rows.slice(0,2);
+ document.getElementById('all-obligations').innerHTML=rows||'<div class="card-sub">No payments added yet.</div>';
+ document.getElementById('transactions').innerHTML=state.transactions.map(t=>`<div class="obligation"><div class="ob-icon">↗</div><div class="ob-main"><div class="ob-name">${esc(t.name)}</div><div class="ob-meta">${esc(t.date)} · ${esc(t.category)}</div></div><div class="ob-amount">−${money(t.amount)}</div></div>`).join('');
+ const cats=[['Home',27000],['Family',5000],['Bills',3260],['Food',1800],['Travel',1200]];
+ document.getElementById('category-list').innerHTML=cats.map(([n,v])=>`<div class="obligation"><div class="ob-main"><div class="ob-name">${n}</div><div style="height:5px;background:#edf2f7;border-radius:6px;margin-top:8px"><div style="height:5px;width:${Math.min(100,v/27000*100)}%;background:#00baf2;border-radius:6px"></div></div></div><div class="ob-amount">${money(v)}</div></div>`).join('');
+}
+function suffix(n){if(n>10&&n<14)return 'th';return ({1:'st',2:'nd',3:'rd'}[n%10]||'th')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+app.addEventListener('click',e=>{
+ const goBtn=e.target.closest('[data-go]');if(goBtn){go(goBtn.dataset.go);return}
+ const pay=e.target.closest('[data-pay]');if(pay){const i=+pay.dataset.pay;const o=state.obligations[i];state.lastPayment=o;o.status='Ready to pay';go('scan');document.getElementById('pay-amount').value=o.amount;return}
+ const act=e.target.closest('[data-action]');if(!act)return;
+ switch(act.dataset.action){
+ case 'pay-demo':{const amount=Number(document.getElementById('pay-amount').value||0);state.lastPayment={name:'Demo Merchant',amount,category:document.getElementById('pay-category').value,day:1};document.getElementById('paid-amount').textContent=money(amount);go('success');break}
+ case 'tag-payment':if(state.lastPayment)state.transactions.unshift({name:state.lastPayment.name,amount:state.lastPayment.amount,category:state.lastPayment.category||'Other',date:'Just now'});go('hub');showToast('Tag saved in this demo.');break;
+ case 'dismiss-sms':document.getElementById('sms-overlay').classList.remove('open');break;
+ case 'search':showToast('Search is a visual prototype control.');break;
+ case 'notifications':showToast('No new notifications in this demo.');break;
+ case 'services':showToast('Additional services are not wired in this prototype.');break;
+ case 'recharge':showToast('Recharge flow is outside this Payday Hub demo.');break;
+ case 'profile':showToast('Profile details are fictional in this demo.');break;
+ case 'help':showToast('Help & support is not connected in this demo.');break;
+ }
+});
+document.getElementById('simulate-sms').addEventListener('click',()=>document.getElementById('sms-overlay').classList.add('open'));
+document.getElementById('add-form').addEventListener('submit',e=>{
+ e.preventDefault();const name=document.getElementById('f-name').value.trim(),amount=Number(document.getElementById('f-amount').value),day=Number(document.getElementById('f-day').value);
+ if(!name||amount<=0||day<1||day>31){showToast('Please check the payment details.');return}
+ state.obligations.push({name,amount,day,category:document.getElementById('f-category').value,frequency:document.getElementById('f-frequency').value,icon:'₹',status:'Upcoming'});
+ e.target.reset();go('hub');showToast('Payment added to your demo plan.');
+});
+go('home');render();
+</script>
+</body>
+</html>
