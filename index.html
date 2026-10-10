@@ -169,6 +169,20 @@ body{background:#f4f5f7;color:#17191d}
     </div>
   </main>
 
+  <main id="verify" class="screen">
+    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Review detected payment</div><div class="eyebrow">Simulated SMS · check before saving</div></div></div>
+    <div class="content">
+      <div class="card">
+        <div class="row-between"><div><div class="card-title">Rent payment</div><div class="card-sub">Detected from a fictional message</div></div><span class="tag">Needs review</span></div>
+        <div class="metric-value" style="margin-top:18px">₹22,000</div>
+        <div class="obligation"><div class="ob-icon">⌂</div><div class="ob-main"><div class="ob-name">Monthly rent</div><div class="ob-meta">Due on the 5th · Category: Home</div></div></div>
+        <div class="notice"><strong>Nothing is saved automatically</strong>This is a simulated message. Confirm to match it to your Payday Hub plan. No real SMS is read.</div>
+        <button class="primary full" data-action="confirm-detected">Confirm &amp; add to plan</button>
+        <button class="ghost full" data-go="hub">Not now</button>
+      </div>
+    </div>
+  </main>
+
   <main id="obligations" class="screen">
     <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Monthly payments</div><div class="eyebrow">Your recurring obligations</div></div><button class="viewall" data-go="setup">＋ Add</button></div>
     <div class="content"><div class="notice"><strong>Before your due date</strong>Payday Hub can remind you the evening before a payment is due. You stay in control of every payment.</div><div class="card" id="all-obligations"></div><button class="primary full" data-go="setup">＋ Add a regular payment</button></div>
@@ -250,6 +264,7 @@ app.addEventListener('click',e=>{
  switch(act.dataset.action){
  case 'pay-demo':{const amount=Number(document.getElementById('pay-amount').value||0);state.lastPayment={name:'Demo Merchant',amount,category:document.getElementById('pay-category').value,day:1};document.getElementById('paid-amount').textContent=money(amount);go('success');break}
  case 'tag-payment':if(state.lastPayment)state.transactions.unshift({name:state.lastPayment.name,amount:state.lastPayment.amount,category:state.lastPayment.category||'Other',date:'Just now'});go('hub');showToast('Tag saved in this demo.');break;
+ case 'confirm-detected':{const exists=state.obligations.some(o=>o.name.toLowerCase()==='rent'&&o.amount===22000);if(!exists)state.obligations.unshift({name:'Rent',amount:22000,day:5,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'});go('hub');showToast(exists?'Matched to your existing rent payment.':'Rent added to your demo plan.');break;}
  case 'dismiss-sms':document.getElementById('sms-overlay').classList.remove('open');break;
  case 'search':showToast('Search is a visual prototype control.');break;
  case 'notifications':showToast('No new notifications in this demo.');break;
