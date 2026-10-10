@@ -69,6 +69,12 @@ body{background:#f4f5f7;color:#17191d}
 .payday-banner-copy strong{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .payday-banner-copy small{font-size:10px;line-height:1.3;color:#dcecff}
 .payday-banner-cta{display:flex;align-items:center;gap:5px;border-radius:18px;background:#fff;color:#07478c;padding:8px 10px;font-size:10px;font-weight:800;white-space:nowrap}
+.hero-actions{display:flex;flex-wrap:wrap;gap:8px}
+.hero-actions button{flex:0 1 auto}
+.hero-actions .income-action{background:#ffffff18;border-color:#ffffff55;color:#fff}
+.income-amount{color:#168653;font-size:14px}
+#income .transaction{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line)}
+#income .transaction:last-child{border-bottom:0}
 .payday-banner-cta b{font-size:20px;line-height:10px}
 .payday-banner-divider{width:1px;align-self:stretch;background:#ffffff45;margin:1px 0}
 .payday-banner-copy{gap:4px}
@@ -173,9 +179,9 @@ body{background:#f4f5f7;color:#17191d}
   </main>
 
   <main id="hub" class="screen">
-    <div class="page-head"><button class="back" data-go="menu">‹</button><div><div class="page-title">Payday Hub</div><div class="eyebrow">Your month, organised</div></div><button class="viewall" data-go="setup">＋ Add</button></div>
+    <div class="page-head"><button class="back" data-go="menu">‹</button><div><div class="page-title">Payday Hub</div><div class="eyebrow">Your month, organised</div></div></div>
     <div class="content">
-      <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-actions"><button class="primary" data-go="obligations">View payments</button><button class="secondary" data-go="setup">＋ Add payment</button></div></div>
+      <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-actions"><button class="primary" data-go="obligations">View payments</button><button class="secondary" data-go="setup">＋ Add payment</button><button class="secondary income-action" data-go="income">＋ Add income</button></div></div>
       <div class="metrics">
         <div class="metric"><div class="metric-label">Monthly obligations</div><div class="metric-value" id="total">₹31,500</div><div class="metric-foot">Across 4 regular payments</div></div>
         <div class="metric"><div class="metric-label">Due this week</div><div class="metric-value" id="due">₹22,000</div><div class="metric-foot">2 payments coming up</div></div>
@@ -221,6 +227,20 @@ body{background:#f4f5f7;color:#17191d}
     </div>
   </main>
 
+  <main id="income" class="screen">
+    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Add income</div><div class="eyebrow">Track salary and other money coming in</div></div></div>
+    <div class="content">
+      <div class="notice"><strong>Record income</strong>Add a recurring income source or a one-off payment such as freelance work, a bonus, or a side gig. This demo does not connect to your bank or move money.</div>
+      <form id="income-form" class="form-card">
+        <label class="field"><span>Income source</span><input id="i-name" required placeholder="e.g. Salary, Freelance project" /></label>
+        <label class="field"><span>Amount (₹)</span><input id="i-amount" required type="number" min="1" placeholder="e.g. 85000" /></label>
+        <label class="field"><span>Income type</span><select id="i-type"><option>Monthly recurring</option><option>One-off income</option></select></label>
+        <label class="field"><span>Category</span><select id="i-category"><option>Salary</option><option>Freelance</option><option>Business</option><option>Bonus</option><option>Investment return</option><option>Other</option></select></label>
+        <button class="primary full" type="submit">Save income</button>
+        <button class="ghost full" type="button" data-go="hub">Cancel</button>
+      </form>
+      <div class="card"><div class="card-title">Income sources</div><div id="income-list" class="list"></div></div>
+    </div>
   <main id="scan" class="screen">
     <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Scan &amp; Pay</div><div class="eyebrow">Simulated payment journey</div></div></div>
     <div class="content"><div class="card" style="text-align:center;padding:28px 18px"><div style="width:170px;height:170px;margin:0 auto 20px;background:#fff;border:10px solid #f1f5f9;display:grid;place-items:center;border-radius:10px"><svg viewBox="0 0 100 100" width="130" height="130"><rect width="100" height="100" fill="white"/><g fill="#172b4d"><path d="M5 5h30v30H5zM11 11v18h18V11zM16 16h8v8h-8zM65 5h30v30H65zM71 11v18h18V11zM76 16h8v8h-8zM5 65h30v30H5zM11 71v18h18V71zM16 76h8v8h-8zM43 5h8v8h-8zM43 21h8v8h-8zM43 37h8v8h-8zM59 43h8v8h-8zM75 43h8v8h-8zM91 43h4v8h-4zM43 53h8v8h-8zM53 63h8v8h-8zM43 75h8v8h-8zM63 81h8v8h-8zM79 65h8v8h-8zM87 77h8v18h-8z"/></g></svg></div><div class="card-title">Demo Merchant</div><div class="card-sub">This is a sample QR. No real payment will be made.</div><label class="field" style="text-align:left"><span>Amount (₹)</span><input id="pay-amount" type="number" value="850" min="1"/></label><label class="field" style="text-align:left"><span>Category</span><select id="pay-category"><option>Food</option><option>Travel</option><option>Shopping</option><option>Bills</option><option>Home</option></select></label><button class="primary full" data-action="pay-demo">Continue (demo only)</button></div></div>
@@ -248,7 +268,7 @@ body{background:#f4f5f7;color:#17191d}
 <script>
 const screens=[...document.querySelectorAll('.screen')];
 const app=document.getElementById('app');
-const state={obligations:[
+const state={incomes:[{name:"Salary",amount:85000,type:"Monthly recurring",category:"Salary"}],obligations:[
  {name:'Rent',amount:22000,day:5,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'},
  {name:'Home help',amount:2500,day:7,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'},
  {name:'Parents',amount:5000,day:10,category:'Family',frequency:'Monthly',icon:'♡',status:'Upcoming'},
@@ -258,10 +278,11 @@ const state={obligations:[
  {name:'Coffee House',amount:320,category:'Food',date:'Yesterday'},
  {name:'Electricity bill',amount:1450,category:'Bills',date:'3 Oct'}
 ],lastPayment:null};
-function go(id){document.getElementById('sms-overlay').classList.remove('open');screens.forEach(s=>s.classList.toggle('active',s.id===id));document.getElementById('simulate-sms').style.display=(id==='home'||id==='hub'||id==='obligations'||id==='history')?'flex':'none';window.scrollTo({top:0,behavior:'smooth'});if(id==='hub'||id==='obligations'||id==='history'||id==='insights')render();}
+function go(id){document.getElementById('sms-overlay').classList.remove('open');screens.forEach(s=>s.classList.toggle('active',s.id===id));document.getElementById('simulate-sms').style.display=(id==='home'||id==='hub'||id==='obligations'||id==='history')?'flex':'none';window.scrollTo({top:0,behavior:'smooth'});if(id==='hub'||id==='obligations'||id==='history'||id==='insights'||id==='income')render();}
 function money(n){return '₹'+Number(n).toLocaleString('en-IN')}
 function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 function render(){
+ const incomeList=document.getElementById('income-list');if(incomeList)incomeList.innerHTML=state.incomes.map(i=>'<div class="transaction"><div><div class="transaction-name">'+esc(i.name)+'</div><div class="transaction-meta">'+esc(i.type)+' · '+esc(i.category)+'</div></div><strong class="income-amount">+'+money(i.amount)+'</strong></div>').join('')||'<div class="card-sub">No income sources added yet.</div>';
  const total=state.obligations.reduce((s,o)=>s+o.amount,0);
  document.getElementById('total').textContent=money(total);
  document.getElementById('due').textContent=money(state.obligations.filter(o=>o.day<=7).reduce((s,o)=>s+o.amount,0));
@@ -297,6 +318,12 @@ document.getElementById('add-form').addEventListener('submit',e=>{
  if(!name||amount<=0||day<1||day>31){showToast('Please check the payment details.');return}
  state.obligations.push({name,amount,day,category:document.getElementById('f-category').value,frequency:document.getElementById('f-frequency').value,icon:'₹',status:'Upcoming'});
  e.target.reset();go('hub');showToast('Payment added to your demo plan.');
+});
+document.getElementById('income-form').addEventListener('submit',e=>{
+ e.preventDefault();const name=document.getElementById('i-name').value.trim(),amount=Number(document.getElementById('i-amount').value);
+ if(!name||amount<=0){showToast('Please check the income details.');return}
+ state.incomes.push({name,amount,type:document.getElementById('i-type').value,category:document.getElementById('i-category').value});
+ e.target.reset();render();go('hub');showToast('Income source added in this demo.');
 });
 go('home');render();
 </script>
