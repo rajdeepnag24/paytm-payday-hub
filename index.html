@@ -69,7 +69,7 @@ body{background:#f4f5f7;color:#17191d}
 .payday-banner-copy strong{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .payday-banner-copy small{font-size:10px;line-height:1.3;color:#dcecff}
 .payday-banner-cta{display:flex;align-items:center;gap:5px;border-radius:18px;background:#fff;color:#07478c;padding:8px 10px;font-size:10px;font-weight:800;white-space:nowrap}
-.hero-actions{display:flex;flex-wrap:wrap;gap:8px}
+.hero-action-layout{margin-top:16px}.hero-action-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.hero-action-caption{font-size:12px;color:#dcecff}.hero-view-payments{background:transparent;border:0;color:#fff;font-size:13px;font-weight:700;padding:5px 0}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hero-actions button{width:100%;min-height:39px}.hero-actions .income-action{background:#fff;color:#002970;border-color:#fff}.payday-home-banner{border:1.5px solid #9fcff0;box-shadow:0 2px 9px #00297016;background:linear-gradient(100deg,#fff 0%,#f1f9ff 100%);color:#172b4d}.payday-banner-mark{background:#e1f5fd;color:#0077b6;border:1px solid #b7e5f8}.payday-banner-copy strong{color:#002970}.payday-obligation-label,.payday-payment-count{color:#65758b}.payday-banner-divider{background:#d6e3ef}.payday-banner-cta{background:#00baf2;color:#002970}.obligation .tag.green{background:#dff6e9;color:#087443;border:1px solid #a8e3c4}.pay-btn{background:#e4f8ef!important;border:1px solid #9bdcbd!important;color:#087443!important;font-weight:700!important}
 .hero-actions button{flex:0 1 auto}
 .hero-actions .income-action{background:#ffffff18;border-color:#ffffff55;color:#fff}
 .income-amount{color:#168653;font-size:14px}
@@ -145,9 +145,9 @@ body{background:#f4f5f7;color:#17191d}
     </div>
     <button class="payday-home-banner" data-go="hub">
       <span class="payday-banner-mark">₹</span>
-      <span class="payday-banner-copy"><strong>Payday Hub</strong><span class="payday-obligation-label">Monthly salary</span><strong class="payday-obligation-total">₹85,000</strong></span>
+      <span class="payday-banner-copy"><strong>Payday Hub</strong><span class="payday-obligation-label">Monthly inflows</span><strong class="payday-obligation-total" id="home-inflows">₹85,000</strong></span>
       <span class="payday-banner-divider"></span>
-      <span class="payday-banner-copy payday-obligations-copy"><span class="payday-obligation-label">Monthly obligations</span><strong class="payday-obligation-total">₹31,500</strong><span class="payday-payment-count"><span class="payday-calendar">▦</span> 4 payments</span></span>
+      <span class="payday-banner-copy payday-obligations-copy"><span class="payday-obligation-label">Monthly obligations</span><strong class="payday-obligation-total" id="home-obligations">₹31,500</strong><span class="payday-payment-count"><span class="payday-calendar">▦</span> <span id="home-payment-count">4 payments</span></span></span>
       <span class="payday-banner-cta"><b>›</b></span>
     </button>
     <section class="section recharge-compact">
@@ -181,7 +181,7 @@ body{background:#f4f5f7;color:#17191d}
   <main id="hub" class="screen">
     <div class="page-head"><button class="back" data-go="menu">‹</button><div><div class="page-title">Payday Hub</div><div class="eyebrow">Your month, organised</div></div></div>
     <div class="content">
-      <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-actions"><button class="primary" data-go="obligations">View payments</button><button class="secondary" data-go="setup">＋ Add payment</button><button class="secondary income-action" data-go="income">＋ Add income</button></div></div>
+      <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-action-layout"><div class="hero-action-top"><span class="hero-action-caption">Your monthly plan</span><button class="hero-view-payments" data-go="obligations">View payments ›</button></div><div class="hero-actions"><button class="secondary" data-go="setup">＋ Add payment</button><button class="secondary income-action" data-go="income">＋ Add income</button></div></div></div>
       <div class="metrics">
         <div class="metric"><div class="metric-label">Monthly obligations</div><div class="metric-value" id="total">₹31,500</div><div class="metric-foot">Across 4 regular payments</div></div>
         <div class="metric"><div class="metric-label">Due this week</div><div class="metric-value" id="due">₹22,000</div><div class="metric-foot">2 payments coming up</div></div>
@@ -220,7 +220,7 @@ body{background:#f4f5f7;color:#17191d}
         <label class="field"><span>Amount (₹)</span><input id="f-amount" required type="number" min="1" placeholder="e.g. 22000" /></label>
         <label class="field"><span>Due date (day of month)</span><input id="f-day" required type="number" min="1" max="31" placeholder="e.g. 5" /></label>
         <label class="field"><span>Frequency</span><select id="f-frequency"><option>Monthly</option><option>Weekly</option><option>Quarterly</option></select></label>
-        <label class="field"><span>Category</span><select id="f-category"><option>Home</option><option>Family</option><option>Bills</option><option>Health</option><option>Travel</option><option>Other</option></select></label>
+        <label class="field"><span>Category</span><select id="f-category"><option>Home</option><option>Family</option><option>Bills</option><option>Health</option><option>Travel</option><option>Add new category</option></select></label>
         <button class="primary full" type="submit">Save payment</button>
         <button class="ghost full" type="button" data-go="hub">Cancel</button>
       </form>
@@ -285,7 +285,7 @@ function money(n){return '₹'+Number(n).toLocaleString('en-IN')}
 function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 function render(){
  const incomeList=document.getElementById('income-list');if(incomeList)incomeList.innerHTML=state.incomes.map(i=>'<div class="transaction"><div><div class="transaction-name">'+esc(i.name)+'</div><div class="transaction-meta">'+esc(i.type)+' · '+esc(i.category)+'</div></div><strong class="income-amount">+'+money(i.amount)+'</strong></div>').join('')||'<div class="card-sub">No income sources added yet.</div>';
- const total=state.obligations.reduce((s,o)=>s+o.amount,0);
+ const total=state.obligations.reduce((s,o)=>s+o.amount,0);\n const recurringIncome=state.incomes.filter(i=>i.type==='Monthly recurring').reduce((sum,i)=>sum+i.amount,0);\n const hi=document.getElementById('home-inflows');if(hi)hi.textContent=money(recurringIncome);\n const ho=document.getElementById('home-obligations');if(ho)ho.textContent=money(total);\n const hc=document.getElementById('home-payment-count');if(hc)hc.textContent=state.obligations.length+' payments';
  document.getElementById('total').textContent=money(total);
  document.getElementById('due').textContent=money(state.obligations.filter(o=>o.day<=7).reduce((s,o)=>s+o.amount,0));
  const rows=state.obligations.map((o,i)=>`<div class="obligation"><div class="ob-icon">${o.icon||'₹'}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn" data-pay="${i}">${o.status==='Paid'?'Paid ✓':'Pay via Paytm'}</button></div></div>`).join('');
