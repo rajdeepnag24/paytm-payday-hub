@@ -70,6 +70,20 @@ body{background:#f4f5f7;color:#17191d}
 .payday-banner-copy small{font-size:10px;line-height:1.3;color:#dcecff}
 .payday-banner-cta{display:flex;align-items:center;gap:5px;border-radius:18px;background:#fff;color:#07478c;padding:8px 10px;font-size:10px;font-weight:800;white-space:nowrap}
 .hero-action-layout{margin-top:16px;position:relative;z-index:2}.hero-action-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:2}.hero-action-caption{font-size:12px;color:#dcecff}.hero-view-payments{position:relative;z-index:3;display:inline-flex;align-items:center;gap:5px;background:#ffffff18;border:1px solid #ffffff45;border-radius:10px;color:#fff;font-size:13px;font-weight:750;padding:9px 11px;cursor:pointer;pointer-events:auto}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:2}.hero-actions button{width:100%;min-height:39px}.hero-actions .income-action{background:#fff;color:#002970;border-color:#fff}.obligation .tag.green{background:#dff6e9;color:#087443;border:1px solid #a8e3c4}.pay-btn{background:#e4f8ef!important;border:1px solid #9bdcbd!important;color:#087443!important;font-weight:700!important}
+/* Payment list filters */
+#obligations .payment-filters{padding:15px;margin:0 0 12px}
+.payment-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.payment-filter-heading .card-sub{margin-top:4px}
+.payment-search{display:flex;align-items:center;gap:8px;margin-top:14px;padding:0 11px;border:1px solid #dce5ee;border-radius:11px;background:#fff;color:#718096}
+.payment-search>span{font-size:22px;line-height:1}
+.payment-search input{width:100%;min-width:0;border:0;outline:0;padding:12px 0;background:transparent;color:#172b4d;font-size:12px}
+.payment-filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 10px}
+.payment-filters .field{margin-top:11px;min-width:0}
+.payment-filters .field span{font-size:10px;line-height:1.35}
+.payment-filters .field input,.payment-filters .field select{font-size:12px;padding:10px 8px;min-width:0}
+.payment-sort{margin-top:8px!important}
+.payment-filter-count{font-size:10px;color:#6b778c;margin-top:11px;padding-top:10px;border-top:1px solid #edf1f5}
+#obligations #all-obligations .empty-filter-state{padding:18px 3px;text-align:center;color:#718096;font-size:12px;line-height:1.5}
 /* View payments: clearer totals, calm grouping, and no duplicate add actions */
 #obligations .page-head{position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #09234b08}
 #obligations .content{padding:15px 13px 28px}
@@ -299,7 +313,22 @@ body{background:#f4f5f7;color:#17191d}
 
   <main id="obligations" class="screen">
     <div class="page-head"><button class="back" data-go="hub" aria-label="Back to Payday Hub">‹</button><div><div class="page-title">View payments</div><div class="eyebrow">Your monthly payment plan</div></div></div>
-    <div class="content"><div class="payments-summary"><div class="payments-summary-card primary-summary"><button class="breakdown-trigger" data-breakdown="monthly"><div class="summary-label"><span class="payments-summary-icon">▦</span> Monthly obligations · tap for details</div><div class="summary-value" id="payments-total">₹31,500</div><div class="summary-foot">Across all planned payments ↗</div></button></div><div class="payments-summary-card"><button class="breakdown-trigger" data-breakdown="week"><div class="summary-label"><span class="payments-summary-icon due-icon">◷</span> Due this week · tap for details</div><div class="summary-value" id="payments-due">₹24,500</div><div class="summary-foot" id="payments-due-count">2 payments coming up ↗</div></button></div></div><div class="payments-intro"><div class="payments-intro-icon">₹</div><div><div class="payments-intro-title">Your planned payments</div><div class="payments-intro-sub">Review due dates and pay when you are ready</div></div></div><div class="card" id="all-obligations"></div><div class="notice"><strong>You are in control</strong>Payments are only simulated in this prototype. No money moves unless you choose a demo action.</div></div>
+    <div class="content"><div class="payments-summary"><div class="payments-summary-card primary-summary"><button class="breakdown-trigger" data-breakdown="monthly"><div class="summary-label"><span class="payments-summary-icon">▦</span> Monthly obligations · tap for details</div><div class="summary-value" id="payments-total">₹31,500</div><div class="summary-foot">Across all planned payments ↗</div></button></div><div class="payments-summary-card"><button class="breakdown-trigger" data-breakdown="week"><div class="summary-label"><span class="payments-summary-icon due-icon">◷</span> Due this week · tap for details</div><div class="summary-value" id="payments-due">₹24,500</div><div class="summary-foot" id="payments-due-count">2 payments coming up ↗</div></button></div></div><div class="payments-intro"><div class="payments-intro-icon">₹</div><div><div class="payments-intro-title">Your planned payments</div><div class="payments-intro-sub">Review due dates and pay when you are ready</div></div></div>
+      <div class="payment-filters card">
+        <div class="payment-filter-heading"><div><div class="card-title">Filter payments</div><div class="card-sub">Narrow by amount, due date, category or status</div></div><button class="link" type="button" data-action="reset-payment-filters">Reset</button></div>
+        <label class="payment-search"><span>⌕</span><input id="payment-search" type="search" placeholder="Search payment or payee" aria-label="Search payment or payee"></label>
+        <div class="payment-filter-grid">
+          <label class="field"><span>Minimum amount (₹)</span><input id="filter-min-amount" type="number" min="0" placeholder="Any"></label>
+          <label class="field"><span>Maximum amount (₹)</span><input id="filter-max-amount" type="number" min="0" placeholder="Any"></label>
+          <label class="field"><span>Due day from</span><input id="filter-day-from" type="number" min="1" max="31" placeholder="1"></label>
+          <label class="field"><span>Due day to</span><input id="filter-day-to" type="number" min="1" max="31" placeholder="31"></label>
+          <label class="field"><span>Category</span><select id="filter-category"><option value="">All categories</option><option>Home</option><option>Family</option><option>Bills</option><option>Health</option><option>Travel</option><option>Food</option><option>Shopping</option><option>Other</option></select></label>
+          <label class="field"><span>Status</span><select id="filter-status"><option value="">All statuses</option><option value="unpaid">Unpaid / upcoming</option><option value="paid">Paid via Paytm</option><option value="ready">Ready to pay</option></select></label>
+        </div>
+        <label class="field payment-sort"><span>Sort by</span><select id="payment-sort"><option value="day-asc">Due date: soonest first</option><option value="day-desc">Due date: latest first</option><option value="amount-asc">Amount: low to high</option><option value="amount-desc">Amount: high to low</option><option value="name-asc">Name: A to Z</option></select></label>
+        <div id="payment-filter-count" class="payment-filter-count" aria-live="polite">Showing all payments</div>
+      </div>
+      <div class="card" id="all-obligations"></div><div class="notice"><strong>You are in control</strong>Payments are only simulated in this prototype. No money moves unless you choose a demo action.</div></div>
   </main>
 
   <div id="breakdown-overlay" aria-hidden="true"><div class="breakdown-sheet" role="dialog" aria-modal="true" aria-labelledby="breakdown-title"><div class="breakdown-sheet-head"><div><div class="breakdown-sheet-title" id="breakdown-title">Payment breakdown</div><div class="breakdown-sheet-sub" id="breakdown-sub">See what makes up this total</div></div><button class="breakdown-close" data-action="close-breakdown" aria-label="Close breakdown">×</button></div><div class="breakdown-total" id="breakdown-total">₹0</div><div id="breakdown-rows"></div><button class="ghost full" data-action="close-breakdown">Done</button></div></div>
@@ -394,10 +423,40 @@ function render(){
  const hubDueCount=document.getElementById('hub-due-count');if(hubDueCount)hubDueCount.textContent=dueItems.length+' payment'+(dueItems.length===1?'':'s')+' · tap for breakdown ↗';
  const rows=state.obligations.map((o,i)=>`<div class="obligation"><div class="ob-icon">${o.icon||'₹'}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status==='Paid'?'Paid ✓':o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn ${o.status==='Paid'?'paid-reward':''}" data-pay="${i}" ${o.status==='Paid'?'disabled':''}>${o.status==='Paid'?'✓ Paid via Paytm':'Pay via Paytm'}</button></div></div>`).join('');
  document.getElementById('upcoming').innerHTML=rows.slice(0,2);
- document.getElementById('all-obligations').innerHTML=rows||'<div class="card-sub">No payments added yet.</div>';
+ renderFilteredObligations();
  document.getElementById('transactions').innerHTML=state.transactions.map(t=>`<div class="obligation"><div class="ob-icon">↗</div><div class="ob-main"><div class="ob-name">${esc(t.name)}</div><div class="ob-meta">${esc(t.date)} · ${esc(t.category)}</div></div><div class="ob-amount">−${money(t.amount)}</div></div>`).join('');
  const cats=[['Home',27000],['Family',5000],['Bills',3260],['Food',1800],['Travel',1200]];
  document.getElementById('category-list').innerHTML=cats.map(([n,v])=>`<div class="obligation"><div class="ob-main"><div class="ob-name">${n}</div><div style="height:5px;background:#edf2f7;border-radius:6px;margin-top:8px"><div style="height:5px;width:${Math.min(100,v/27000*100)}%;background:#00baf2;border-radius:6px"></div></div></div><div class="ob-amount">${money(v)}</div></div>`).join('');
+}
+function renderFilteredObligations(){
+ const search=(document.getElementById('payment-search')?.value||'').trim().toLowerCase();
+ const minRaw=document.getElementById('filter-min-amount')?.value||'';
+ const maxRaw=document.getElementById('filter-max-amount')?.value||'';
+ const fromRaw=document.getElementById('filter-day-from')?.value||'';
+ const toRaw=document.getElementById('filter-day-to')?.value||'';
+ const category=document.getElementById('filter-category')?.value||'';
+ const status=document.getElementById('filter-status')?.value||'';
+ const sort=document.getElementById('payment-sort')?.value||'day-asc';
+ const min=minRaw===''?null:Number(minRaw),max=maxRaw===''?null:Number(maxRaw);
+ const from=fromRaw===''?null:Number(fromRaw),to=toRaw===''?null:Number(toRaw);
+ const items=state.obligations.map((o,i)=>({...o,_index:i})).filter(o=>{
+   if(search&&!o.name.toLowerCase().includes(search)&&!String(o.category||'').toLowerCase().includes(search))return false;
+   if(min!==null&&o.amount<min)return false;
+   if(max!==null&&o.amount>max)return false;
+   if(from!==null&&o.day<from)return false;
+   if(to!==null&&o.day>to)return false;
+   if(category&&o.category!==category)return false;
+   if(status==='paid'&&o.status!=='Paid')return false;
+   if(status==='ready'&&o.status!=='Ready to pay')return false;
+   if(status==='unpaid'&&(o.status==='Paid'||o.status==='Ready to pay'))return false;
+   return true;
+ });
+ items.sort((a,b)=>sort==='amount-asc'?(a.amount-b.amount||a.day-b.day):sort==='amount-desc'?(b.amount-a.amount||a.day-b.day):sort==='day-desc'?(b.day-a.day||a.name.localeCompare(b.name)):sort==='name-asc'?a.name.localeCompare(b.name):(a.day-b.day||a.name.localeCompare(b.name)));
+ const count=document.getElementById('payment-filter-count');
+ if(count)count.textContent='Showing '+items.length+' of '+state.obligations.length+' payment'+(state.obligations.length===1?'':'s');
+ const list=document.getElementById('all-obligations');
+ if(!list)return;
+ list.innerHTML=items.length?items.map(o=>`<div class="obligation"><div class="ob-icon">${esc(o.icon||'₹')}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status==='Paid'?'Paid ✓':o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn ${o.status==='Paid'?'paid-reward':''}" data-pay="${o._index}" ${o.status==='Paid'?'disabled':''}>${o.status==='Paid'?'✓ Paid via Paytm':'Pay via Paytm'}</button></div></div>`).join(''):'<div class="empty-filter-state">No payments match these filters.<br>Try changing an amount, due date or status, or reset the filters.</div>';
 }
 function suffix(n){if(n>10&&n<14)return 'th';return ({1:'st',2:'nd',3:'rd'}[n%10]||'th')}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -413,6 +472,7 @@ app.addEventListener('click',e=>{
  case 'pay-demo':{const amount=Number(document.getElementById('pay-amount').value||0);if(state.lastPayment&&state.lastPayment.isObligation){state.lastPayment.amount=amount;state.lastPayment.category=state.lastPayment.category||'Home';}else{state.lastPayment={name:'Demo Merchant',amount,category:document.getElementById('pay-category').value,day:1,paymentMethod:'Paytm',isObligation:false};}document.getElementById('paid-amount').textContent=money(amount);const reward=document.getElementById('payment-reward');if(reward)reward.classList.toggle('show',!!state.lastPayment.isObligation);go('success');break}
  case 'tag-payment':if(state.lastPayment){state.transactions.unshift({name:state.lastPayment.name,amount:state.lastPayment.amount,category:state.lastPayment.category||'Other',date:'Just now'});if(state.lastPayment.isObligation&&Number.isInteger(state.lastPayment.obligationIndex)){const paid=state.obligations[state.lastPayment.obligationIndex];if(paid)paid.status='Paid';}}go('hub');render();showToast(state.lastPayment&&state.lastPayment.isObligation?'Paid via Paytm — your plan is updated!':'Tag saved in this demo.');break;
  case 'toggle-income-visibility':{const value=document.getElementById('home-inflows');const revealed=value.classList.toggle('revealed');act.textContent=revealed?'◉':'◌';act.setAttribute('aria-label',revealed?'Hide monthly income':'Show monthly income');act.title=revealed?'Hide monthly income':'Show monthly income';break;}
+ case 'reset-payment-filters':{['payment-search','filter-min-amount','filter-max-amount','filter-day-from','filter-day-to','filter-category','filter-status'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const sort=document.getElementById('payment-sort');if(sort)sort.value='day-asc';renderFilteredObligations();showToast('Payment filters reset.');break;}
  case 'close-breakdown':closeBreakdown();break;
  case 'confirm-detected':{const exists=state.obligations.some(o=>o.name.toLowerCase()==='rent'&&o.amount===22000);if(!exists)state.obligations.unshift({name:'Rent',amount:22000,day:5,category:'Home',frequency:'Monthly',icon:'⌂',status:'Due soon'});go('hub');showToast(exists?'Matched to your existing rent payment.':'Rent added to your demo plan.');break;}
  case 'dismiss-sms':document.getElementById('sms-overlay').classList.remove('open');break;
@@ -423,6 +483,10 @@ app.addEventListener('click',e=>{
  case 'profile':showToast('Profile details are fictional in this demo.');break;
  case 'help':showToast('Help & support is not connected in this demo.');break;
  }
+});
+['payment-search','filter-min-amount','filter-max-amount','filter-day-from','filter-day-to','filter-category','filter-status','payment-sort'].forEach(id=>{
+ const el=document.getElementById(id);if(!el)return;
+ el.addEventListener(el.tagName==='INPUT'?'input':'change',renderFilteredObligations);
 });
 document.getElementById('simulate-sms').addEventListener('click',()=>document.getElementById('sms-overlay').classList.add('open'));
 document.getElementById('breakdown-overlay').addEventListener('click',e=>{if(e.target.id==='breakdown-overlay')closeBreakdown();});
