@@ -69,7 +69,28 @@ body{background:#f4f5f7;color:#17191d}
 .payday-banner-copy strong{font-size:15px;font-weight:800;letter-spacing:-.2px}
 .payday-banner-copy small{font-size:10px;line-height:1.3;color:#dcecff}
 .payday-banner-cta{display:flex;align-items:center;gap:5px;border-radius:18px;background:#fff;color:#07478c;padding:8px 10px;font-size:10px;font-weight:800;white-space:nowrap}
-.hero-action-layout{margin-top:16px}.hero-action-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.hero-action-caption{font-size:12px;color:#dcecff}.hero-view-payments{background:transparent;border:0;color:#fff;font-size:13px;font-weight:700;padding:5px 0}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hero-actions button{width:100%;min-height:39px}.hero-actions .income-action{background:#fff;color:#002970;border-color:#fff}obligation .tag.green{background:#dff6e9;color:#087443;border:1px solid #a8e3c4}.pay-btn{background:#e4f8ef!important;border:1px solid #9bdcbd!important;color:#087443!important;font-weight:700!important}
+.hero-action-layout{margin-top:16px;position:relative;z-index:2}.hero-action-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;position:relative;z-index:2}.hero-action-caption{font-size:12px;color:#dcecff}.hero-view-payments{position:relative;z-index:3;display:inline-flex;align-items:center;gap:5px;background:#ffffff18;border:1px solid #ffffff45;border-radius:10px;color:#fff;font-size:13px;font-weight:750;padding:9px 11px;cursor:pointer;pointer-events:auto}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:2}.hero-actions button{width:100%;min-height:39px}.hero-actions .income-action{background:#fff;color:#002970;border-color:#fff}.obligation .tag.green{background:#dff6e9;color:#087443;border:1px solid #a8e3c4}.pay-btn{background:#e4f8ef!important;border:1px solid #9bdcbd!important;color:#087443!important;font-weight:700!important}
+/* View payments: clearer totals, calm grouping, and no duplicate add actions */
+#obligations .page-head{position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #09234b08}
+#obligations .content{padding:15px 13px 28px}
+#obligations .payments-summary{display:grid;grid-template-columns:1.15fr 1fr;gap:10px;margin-bottom:12px}
+#obligations .payments-summary-card{border-radius:16px;padding:15px 14px;border:1px solid #e7edf4;background:#fff;min-width:0}
+#obligations .payments-summary-card.primary-summary{background:#eaf8ff;border-color:#cdeeff}
+#obligations .summary-label{font-size:11px;color:#65758b;font-weight:650}
+#obligations .summary-value{font-size:23px;font-weight:850;letter-spacing:-.6px;color:#172b4d;margin-top:7px;white-space:nowrap}
+#obligations .summary-foot{font-size:10px;color:#75859a;margin-top:5px}
+#obligations .payments-intro{display:flex;align-items:center;gap:10px;margin:2px 2px 11px}
+#obligations .payments-intro-icon{width:37px;height:37px;border-radius:12px;display:grid;place-items:center;background:#e5f6ff;color:#0877b8;font-size:19px;flex:0 0 37px}
+#obligations .payments-intro-title{font-size:14px;font-weight:800;color:#24364f}
+#obligations .payments-intro-sub{font-size:11px;color:#77869a;margin-top:3px}
+#obligations #all-obligations{padding:4px 14px;margin-top:0}
+#obligations .obligation{padding:15px 0;gap:10px}
+#obligations .ob-icon{width:42px;height:42px;border-radius:14px;background:#eff7ff;font-size:19px}
+#obligations .ob-name{font-size:13px}
+#obligations .ob-meta{font-size:10px;line-height:1.4}
+#obligations .ob-amount{font-size:13px;white-space:nowrap}
+#obligations .notice{margin-top:12px}
+
 .hero-actions button{flex:0 1 auto}
 .hero-actions .income-action{background:#ffffff18;border-color:#ffffff55;color:#fff}
 .income-amount{color:#168653;font-size:14px}
@@ -207,8 +228,8 @@ body{background:#f4f5f7;color:#17191d}
   </main>
 
   <main id="obligations" class="screen">
-    <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Monthly payments</div><div class="eyebrow">Your recurring obligations</div></div><button class="viewall" data-go="setup">＋ Add</button></div>
-    <div class="content"><div class="notice"><strong>Before your due date</strong>Payday Hub can remind you the evening before a payment is due. You stay in control of every payment.</div><div class="card" id="all-obligations"></div><button class="primary full" data-go="setup">＋ Add a regular payment</button></div>
+    <div class="page-head"><button class="back" data-go="hub" aria-label="Back to Payday Hub">‹</button><div><div class="page-title">View payments</div><div class="eyebrow">Your monthly payment plan</div></div></div>
+    <div class="content"><div class="payments-summary"><div class="payments-summary-card primary-summary"><div class="summary-label">Monthly obligations</div><div class="summary-value" id="payments-total">₹31,500</div><div class="summary-foot">Across all planned payments</div></div><div class="payments-summary-card"><div class="summary-label">Due this week</div><div class="summary-value" id="payments-due">₹24,500</div><div class="summary-foot" id="payments-due-count">2 payments coming up</div></div></div><div class="payments-intro"><div class="payments-intro-icon">▦</div><div><div class="payments-intro-title">Your planned payments</div><div class="payments-intro-sub">Review due dates and pay when you are ready</div></div></div><div class="card" id="all-obligations"></div><div class="notice"><strong>You are in control</strong>Payments are only simulated in this prototype. No money moves unless you choose a demo action.</div></div>
   </main>
 
   <main id="setup" class="screen">
@@ -291,7 +312,12 @@ function render(){
  const ho=document.getElementById('home-obligations');if(ho)ho.textContent=money(total);
  const hc=document.getElementById('home-payment-count');if(hc)hc.textContent=state.obligations.length+' payments';
  document.getElementById('total').textContent=money(total);
- document.getElementById('due').textContent=money(state.obligations.filter(o=>o.day<=7).reduce((s,o)=>s+o.amount,0));
+ const dueItems=state.obligations.filter(o=>o.day<=7&&o.status!=='Paid');
+ const dueTotal=dueItems.reduce((s,o)=>s+o.amount,0);
+ document.getElementById('due').textContent=money(dueTotal);
+ const paymentsTotal=document.getElementById('payments-total');if(paymentsTotal)paymentsTotal.textContent=money(total);
+ const paymentsDue=document.getElementById('payments-due');if(paymentsDue)paymentsDue.textContent=money(dueTotal);
+ const paymentsDueCount=document.getElementById('payments-due-count');if(paymentsDueCount)paymentsDueCount.textContent=dueItems.length+' payment'+(dueItems.length===1?'':'s')+' coming up';
  const rows=state.obligations.map((o,i)=>`<div class="obligation"><div class="ob-icon">${o.icon||'₹'}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn" data-pay="${i}">${o.status==='Paid'?'Paid ✓':'Pay via Paytm'}</button></div></div>`).join('');
  document.getElementById('upcoming').innerHTML=rows.slice(0,2);
  document.getElementById('all-obligations').innerHTML=rows||'<div class="card-sub">No payments added yet.</div>';
