@@ -285,7 +285,11 @@ function money(n){return '₹'+Number(n).toLocaleString('en-IN')}
 function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 function render(){
  const incomeList=document.getElementById('income-list');if(incomeList)incomeList.innerHTML=state.incomes.map(i=>'<div class="transaction"><div><div class="transaction-name">'+esc(i.name)+'</div><div class="transaction-meta">'+esc(i.type)+' · '+esc(i.category)+'</div></div><strong class="income-amount">+'+money(i.amount)+'</strong></div>').join('')||'<div class="card-sub">No income sources added yet.</div>';
- const total=state.obligations.reduce((s,o)=>s+o.amount,0);\n const recurringIncome=state.incomes.filter(i=>i.type==='Monthly recurring').reduce((sum,i)=>sum+i.amount,0);\n const hi=document.getElementById('home-inflows');if(hi)hi.textContent=money(recurringIncome);\n const ho=document.getElementById('home-obligations');if(ho)ho.textContent=money(total);\n const hc=document.getElementById('home-payment-count');if(hc)hc.textContent=state.obligations.length+' payments';
+ const total=state.obligations.reduce((s,o)=>s+o.amount,0);
+ const recurringIncome=state.incomes.filter(i=>i.type==='Monthly recurring').reduce((sum,i)=>sum+i.amount,0);
+ const hi=document.getElementById('home-inflows');if(hi)hi.textContent=money(recurringIncome);
+ const ho=document.getElementById('home-obligations');if(ho)ho.textContent=money(total);
+ const hc=document.getElementById('home-payment-count');if(hc)hc.textContent=state.obligations.length+' payments';
  document.getElementById('total').textContent=money(total);
  document.getElementById('due').textContent=money(state.obligations.filter(o=>o.day<=7).reduce((s,o)=>s+o.amount,0));
  const rows=state.obligations.map((o,i)=>`<div class="obligation"><div class="ob-icon">${o.icon||'₹'}</div><div class="ob-main"><div class="ob-name">${esc(o.name)}</div><div class="ob-meta">${esc(o.frequency)} · Due ${o.day}${suffix(o.day)} · ${esc(o.category)}</div><span class="tag ${o.status==='Paid'?'green':''}">${esc(o.status||'Upcoming')}</span></div><div class="ob-amount">${money(o.amount)}<br><button class="pay-btn" data-pay="${i}">${o.status==='Paid'?'Paid ✓':'Pay via Paytm'}</button></div></div>`).join('');
