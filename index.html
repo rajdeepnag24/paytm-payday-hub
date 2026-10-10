@@ -119,6 +119,20 @@ body{background:#f4f5f7;color:#17191d}
 .reward-copy p{font-size:11px;line-height:1.4;color:#5f6f83;margin:5px 0 8px}
 .reward-badge{display:inline-flex;align-items:center;gap:4px;border-radius:20px;background:#e3f8ed;color:#087443;padding:5px 8px;font-size:10px;font-weight:800;border:1px solid #b8e8ce}
 .reward-sparkle{color:#e49a00;font-size:14px}
+.income-strip{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid #e4edf5;border-radius:15px;padding:12px 13px;margin:12px 0}
+.income-strip-icon{width:39px;height:39px;border-radius:13px;background:#e4f8ef;color:#087443;display:grid;place-items:center;font-size:21px;font-weight:850;flex:0 0 39px}
+.income-strip-copy{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.income-strip-copy span{font-size:10px;color:#718096;font-weight:650}
+.income-strip-copy strong{font-size:17px;color:#172b4d;font-weight:850}
+.income-strip-action{border:1px solid #b9e6ce;background:#eaf8f0;color:#087443;border-radius:10px;padding:9px 10px;font-size:11px;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.insight-label{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.insight-icon{width:27px;height:27px;border-radius:9px;display:grid;place-items:center;font-size:16px;font-weight:850}
+.income-icon{background:#e4f8ef;color:#087443}
+.outflow-icon{background:#fff1df;color:#b76500}
+#obligations .summary-label{display:flex;align-items:center;gap:6px;line-height:1.35}
+.payments-summary-icon{width:23px;height:23px;border-radius:7px;display:inline-grid;place-items:center;background:#dff3ff;color:#0877b8;font-size:14px;flex:0 0 23px}
+.payments-summary-icon.due-icon{background:#fff1df;color:#b76500}
+#obligations .payments-intro-icon{font-size:19px}
 .payday-banner-divider{width:1px;align-self:stretch;background:#ffffff45;margin:1px 0}
 .payday-banner-copy{gap:4px}
 .payday-obligation-label{font-size:10px;line-height:1.2;color:#dcecff}
@@ -217,13 +231,11 @@ body{background:#f4f5f7;color:#17191d}
       <button class="quick" data-go="scan"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 9l10-6 10 6M4 10h16M5 10v9M9 10v9M15 10v9M19 10v9M3 20h18"/></svg></span><span>To Bank &amp;<br>Self A/c</span></button>
       <button class="quick" data-go="history"><span class="qicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h3M8 15h8M15 10v3"/></svg></span><span>Balance &amp;<br>History</span></button>
     </div>
-    <div class="payday-home-banner" data-go="hub" role="button" tabindex="0" aria-label="Open Payday Hub">
+    <button class="payday-home-banner" data-go="hub" aria-label="Go to your Payday Hub">
       <span class="payday-banner-mark">₹</span>
-      <span class="payday-banner-copy"><strong>Payday Hub</strong><span class="payday-obligation-label">Monthly income</span><span class="payday-income-line"><strong class="payday-obligation-total payday-private-value" id="home-inflows">₹85,000</strong><button class="payday-privacy-toggle" data-action="toggle-income-visibility" aria-label="Show monthly income" title="Show or hide monthly income">◉</button></span></span>
-      <span class="payday-banner-divider"></span>
-      <button class="payday-add-source" data-go="income" aria-label="Add income source"><span>＋</span><span>Source!</span></button>
+      <span class="payday-banner-copy"><strong>Go to your Payday Hub</strong></span>
       <span class="payday-banner-cta"><b>›</b></span>
-    </div>
+    </button>
     <section class="section recharge-compact">
       <div class="section-head"><div class="section-title">Recharge &amp; Bills</div><button class="viewall" data-action="services">View All →</button></div>
     </section>
@@ -256,12 +268,17 @@ body{background:#f4f5f7;color:#17191d}
     <div class="page-head"><button class="back" data-go="home">‹</button><div><div class="page-title">Payday Hub</div><div class="eyebrow">Your month, organised</div></div></div>
     <div class="content">
       <div class="hero-card"><div class="hero-eyebrow">OCTOBER · YOUR MONTH</div><h2>It's payday.<br>Your month is ready.</h2><p>See what's due, keep track of payments and choose Paytm when it's time to pay.</p><div class="hero-action-layout"><div class="hero-actions"><button class="hero-view-payments" data-go="obligations">▦ &nbsp; View payments</button></div></div></div>
+      <div class="income-strip">
+        <div class="income-strip-icon">₹</div>
+        <div class="income-strip-copy"><span>Monthly income</span><strong id="hub-income-total">₹85,000</strong></div>
+        <button class="income-strip-action" data-go="income"><span>＋</span> Add source</button>
+      </div>
       <div class="metrics">
         <button class="metric breakdown-trigger" data-breakdown="monthly" aria-label="View monthly obligations breakdown"><div class="metric-label">Monthly obligations</div><div class="metric-value" id="total">₹31,500</div><div class="metric-foot">Tap for payment breakdown ↗</div></button>
         <button class="metric breakdown-trigger" data-breakdown="week" aria-label="View this week payment breakdown"><div class="metric-label">Due this week</div><div class="metric-value" id="due">₹24,500</div><div class="metric-foot" id="hub-due-count">Tap for payment breakdown ↗</div></button>
       </div>
       <div class="card"><div class="row-between"><div><div class="card-title">Coming up next</div><div class="card-sub">A gentle reminder before each due date</div></div><button class="link" data-go="obligations">See all ›</button></div><div id="upcoming"></div></div>
-      <div class="card"><div class="row-between"><div><div class="card-title">Your spending snapshot</div><div class="card-sub">Illustrative demo data for October</div></div><button class="link" data-go="insights">Insights ›</button></div><div class="row-between" style="margin-top:18px;align-items:flex-start"><div><div class="metric-label">Monthly outflow</div><div class="metric-value">₹48,260</div></div><span class="reward-badge"><span class="reward-sparkle">✦</span> Paytm rewards</span></div><div class="reward-progress"><div class="reward-ring"><strong>42%</strong></div><div class="reward-copy"><strong>You're building your money story!</strong><p>Tag more payments to unlock a clearer picture of your month.</p><span class="reward-badge">✓ Payments tracked</span></div></div></div>
+      <div class="card"><div class="row-between"><div><div class="card-title">Your spending snapshot</div><div class="card-sub">Illustrative demo data for October</div></div><button class="link" data-go="insights">Insights ›</button></div><div class="row-between" style="margin-top:18px;align-items:flex-start"><div><div class="metric-label">Monthly outflow</div><div class="metric-value">₹48,260</div></div><span class="reward-badge"><span class="reward-sparkle">✦</span> Paytm rewards</span></div><div class="reward-progress"><div class="reward-ring"><strong>42%</strong></div><div class="reward-copy"><strong>42% of your payments completed using Paytm</strong><p>Keep paying with Paytm to complete more of your monthly payments and earn rewards along the way.</p><span class="reward-badge">✦ Keep going · earn rewards</span></div></div></div>
       <div class="card"><div class="row-between"><div><div class="card-title">Goals &amp; investments</div><div class="card-sub">Optional · View-only in this demo</div></div><button class="link" data-go="insights">View ›</button></div><div class="obligation"><div class="ob-icon">◎</div><div class="ob-main"><div class="ob-name">Emergency fund</div><div class="ob-meta">Goal progress · illustrative</div></div><div class="ob-amount">35%</div></div><div class="obligation"><div class="ob-icon">↗</div><div class="ob-main"><div class="ob-name">SIP dates</div><div class="ob-meta">Display only · no investment advice</div></div><span class="tag green">View only</span></div></div>
     </div>
   </main>
@@ -282,7 +299,7 @@ body{background:#f4f5f7;color:#17191d}
 
   <main id="obligations" class="screen">
     <div class="page-head"><button class="back" data-go="hub" aria-label="Back to Payday Hub">‹</button><div><div class="page-title">View payments</div><div class="eyebrow">Your monthly payment plan</div></div></div>
-    <div class="content"><div class="payments-summary"><div class="payments-summary-card primary-summary"><button class="breakdown-trigger" data-breakdown="monthly"><div class="summary-label">Monthly obligations · tap for details</div><div class="summary-value" id="payments-total">₹31,500</div><div class="summary-foot">Across all planned payments ↗</div></button></div><div class="payments-summary-card"><button class="breakdown-trigger" data-breakdown="week"><div class="summary-label">Due this week · tap for details</div><div class="summary-value" id="payments-due">₹24,500</div><div class="summary-foot" id="payments-due-count">2 payments coming up ↗</div></button></div></div><div class="payments-intro"><div class="payments-intro-icon">▦</div><div><div class="payments-intro-title">Your planned payments</div><div class="payments-intro-sub">Review due dates and pay when you are ready</div></div></div><div class="card" id="all-obligations"></div><div class="notice"><strong>You are in control</strong>Payments are only simulated in this prototype. No money moves unless you choose a demo action.</div></div>
+    <div class="content"><div class="payments-summary"><div class="payments-summary-card primary-summary"><button class="breakdown-trigger" data-breakdown="monthly"><div class="summary-label"><span class="payments-summary-icon">▦</span> Monthly obligations · tap for details</div><div class="summary-value" id="payments-total">₹31,500</div><div class="summary-foot">Across all planned payments ↗</div></button></div><div class="payments-summary-card"><button class="breakdown-trigger" data-breakdown="week"><div class="summary-label"><span class="payments-summary-icon due-icon">◷</span> Due this week · tap for details</div><div class="summary-value" id="payments-due">₹24,500</div><div class="summary-foot" id="payments-due-count">2 payments coming up ↗</div></button></div></div><div class="payments-intro"><div class="payments-intro-icon">₹</div><div><div class="payments-intro-title">Your planned payments</div><div class="payments-intro-sub">Review due dates and pay when you are ready</div></div></div><div class="card" id="all-obligations"></div><div class="notice"><strong>You are in control</strong>Payments are only simulated in this prototype. No money moves unless you choose a demo action.</div></div>
   </main>
 
   <div id="breakdown-overlay" aria-hidden="true"><div class="breakdown-sheet" role="dialog" aria-modal="true" aria-labelledby="breakdown-title"><div class="breakdown-sheet-head"><div><div class="breakdown-sheet-title" id="breakdown-title">Payment breakdown</div><div class="breakdown-sheet-sub" id="breakdown-sub">See what makes up this total</div></div><button class="breakdown-close" data-action="close-breakdown" aria-label="Close breakdown">×</button></div><div class="breakdown-total" id="breakdown-total">₹0</div><div id="breakdown-rows"></div><button class="ghost full" data-action="close-breakdown">Done</button></div></div>
@@ -336,7 +353,7 @@ body{background:#f4f5f7;color:#17191d}
 
   <main id="insights" class="screen">
     <div class="page-head"><button class="back" data-go="hub">‹</button><div><div class="page-title">Monthly insights</div><div class="eyebrow">October · demo data</div></div></div>
-    <div class="content"><div class="metrics"><div class="metric"><div class="metric-label">Money in</div><div class="metric-value">₹85,000</div></div><div class="metric"><div class="metric-label">Money out</div><div class="metric-value">₹48,260</div></div></div><div class="card"><div class="card-title">Monthly outflow</div><div class="card-sub">Illustrative trend · not linked to a bank</div><div class="chart-bars"><div class="bar-col"><div class="bar" style="height:48px"></div>May</div><div class="bar-col"><div class="bar" style="height:62px"></div>Jun</div><div class="bar-col"><div class="bar" style="height:53px"></div>Jul</div><div class="bar-col"><div class="bar" style="height:77px"></div>Aug</div><div class="bar-col"><div class="bar" style="height:65px"></div>Sep</div><div class="bar-col"><div class="bar" style="height:89px"></div>Oct</div></div></div><div class="card"><div class="card-title">Where money goes</div><div id="category-list"></div></div><div class="notice"><strong>Goals and SIP dates are display-only</strong>This prototype does not provide investment advice, predict shortfalls or initiate any investment.</div></div>
+    <div class="content"><div class="metrics"><div class="metric"><div class="insight-label"><span class="insight-icon income-icon">↙</span><span class="metric-label">Money in</span></div><div class="metric-value">₹85,000</div></div><div class="metric"><div class="insight-label"><span class="insight-icon outflow-icon">↗</span><span class="metric-label">Money out</span></div><div class="metric-value">₹48,260</div></div></div><div class="card"><div class="card-title">Monthly outflow</div><div class="card-sub">Illustrative trend · not linked to a bank</div><div class="chart-bars"><div class="bar-col"><div class="bar" style="height:48px"></div>May</div><div class="bar-col"><div class="bar" style="height:62px"></div>Jun</div><div class="bar-col"><div class="bar" style="height:53px"></div>Jul</div><div class="bar-col"><div class="bar" style="height:77px"></div>Aug</div><div class="bar-col"><div class="bar" style="height:65px"></div>Sep</div><div class="bar-col"><div class="bar" style="height:89px"></div>Oct</div></div></div><div class="card"><div class="card-title">Where money goes</div><div id="category-list"></div></div><div class="notice"><strong>Goals and SIP dates are display-only</strong>This prototype does not provide investment advice, predict shortfalls or initiate any investment.</div></div>
   </main>
 
   <div class="sms-overlay" id="sms-overlay"><div class="sms-toast"><div class="sms-head"><div class="sms-logo">SMS</div><div class="sms-title">New message detected <div class="eyebrow">Messages · Just now</div></div><div class="sms-time">9:00 PM</div></div><div class="sms-body">“Hi, your monthly rent payment of ₹22,000 is due on the 5th. Please pay your landlord.”<br><br><span style="color:#7a8797">Simulated message — no real SMS access.</span></div><div class="sms-actions"><button class="ghost" data-action="dismiss-sms">Not now</button><button class="primary" data-go="verify">Review payment</button></div></div></div>
@@ -364,6 +381,7 @@ function render(){
  const total=state.obligations.reduce((s,o)=>s+o.amount,0);
  const recurringIncome=state.incomes.filter(i=>i.type==='Monthly recurring').reduce((sum,i)=>sum+i.amount,0);
  const hi=document.getElementById('home-inflows');if(hi){hi.textContent=money(recurringIncome);}
+ const hubIncome=document.getElementById('hub-income-total');if(hubIncome)hubIncome.textContent=money(recurringIncome);
  const ho=document.getElementById('home-obligations');if(ho)ho.textContent=money(total);
  const hc=document.getElementById('home-payment-count');if(hc)hc.textContent=state.obligations.length+' payments';
  document.getElementById('total').textContent=money(total);
